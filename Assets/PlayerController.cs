@@ -11,7 +11,6 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         GetUserWASD();
-
     }
 
     void GetUserWASD()
@@ -25,23 +24,27 @@ public class PlayerController : MonoBehaviour
         var speedToUse = PlayerSpeed;
         if (xplusz)
             speedToUse = DividedByHipotnouse(speedToUse);
-        if (Input.GetKey("w"))
+
+        if (Input.GetKey("w") && pos.z < 6.5f)
         {
             pos.z += speedToUse * Time.deltaTime;
         }
-        if (Input.GetKey("s"))
+        if (Input.GetKey("s") && pos.z > -6.5f)
         {
             pos.z -= speedToUse * Time.deltaTime;
         }
-        if (Input.GetKey("d"))
+        if (Input.GetKey("d") && pos.x < 6.5f)
         {
             pos.x += speedToUse * Time.deltaTime;
         }
-        if (Input.GetKey("a"))
+        if (Input.GetKey("a") && pos.x > -6.5f)
         {
             pos.x -= speedToUse * Time.deltaTime;
         }
         transform.position = pos;
+
+        BlockPlayerMovingOutSideMap();
+
         ClickedAny();
     }
 
@@ -56,7 +59,6 @@ public class PlayerController : MonoBehaviour
         transform.Translate(movement * PlayerSpeed * Time.deltaTime, Space.World);
     }
 
-
     bool CheckIfDiagonal()
     {
         if (Input.GetKey("w") && Input.GetKey("d") || Input.GetKey("w") && Input.GetKey("a") || Input.GetKey("s") && Input.GetKey("d") || Input.GetKey("s") && Input.GetKey("a"))
@@ -64,9 +66,36 @@ public class PlayerController : MonoBehaviour
         return false;
     }
 
-    
     float DividedByHipotnouse(float catetos)
     {
-        return catetos  / Mathf.Sqrt(catetos * catetos * 2);
+        return catetos / Mathf.Sqrt(catetos * catetos * 2);
+    }
+
+    void BlockPlayerMovingOutSideMap()
+    {
+        if (transform.position.x > 6.5f)
+        {
+            Vector3 pos = transform.position;
+            pos.x = 6.5f;
+            transform.position = pos;
+        }
+        if (transform.position.x < -6.5f)
+        {
+            Vector3 pos = transform.position;
+            pos.x = -6.5f;
+            transform.position = pos;
+        }
+        if (transform.position.z > 6.5f)
+        {
+            Vector3 pos = transform.position;
+            pos.z = 6.5f;
+            transform.position = pos;
+        }
+        if (transform.position.z < -6.5f)
+        {
+            Vector3 pos = transform.position;
+            pos.z = -6.5f;
+            transform.position = pos;
+        }
     }
 }

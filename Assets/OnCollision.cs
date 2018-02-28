@@ -2,14 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class OnCollision : MonoBehaviour {
-
-	void OnCollisionEnter(Collision col)
+public class OnCollision : MonoBehaviour
+{
+    void OnCollisionEnter(Collision col)
     {
-        Debug.Log(col.gameObject.name);
-        if(col.gameObject.name == "Chicken")
+        if (col.gameObject.name == "Chicken")
         {
-            Destroy(col.gameObject);
+            ChickensList.instance.KillChicken(col.gameObject);
         }
     }
 }
