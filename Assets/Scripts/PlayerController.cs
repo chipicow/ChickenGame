@@ -6,8 +6,6 @@ public class PlayerController : MonoBehaviour
 {
     public float PlayerSpeed = 10f;
 
-    private Vector3 curLoc;
-    private Vector3 prevLoc;
     void Update()
     {
         GetUserWASD();
@@ -15,9 +13,6 @@ public class PlayerController : MonoBehaviour
 
     void GetUserWASD()
     {
-
-        prevLoc = curLoc;
-        curLoc = transform.position;
 
         Vector3 pos = transform.position;
         bool xplusz = CheckIfDiagonal();

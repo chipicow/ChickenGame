@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class ChickensList : MonoBehaviour
 {
-
     #region Singleton
     public static ChickensList instance;
 
@@ -17,7 +16,11 @@ public class ChickensList : MonoBehaviour
     public string ZoneDescription;
     public GameObject chickenPrefab;
     public GameObject playerObject;
+    public GameObject leftHunter;
+    public GameObject rightHunter;
     private List<GameObject> ChickenList = new List<GameObject>();
+    private Component rigthHunterMovementComponent;
+    private Component leftHunterMovementComponent;
     private int ChickenWave;
     private float Radius;
     private Vector3 center;
@@ -34,8 +37,14 @@ public class ChickensList : MonoBehaviour
     {
         if (ChickenList.Count == 0)
         {
-            if (++ChickenWave % 3 == 0)
+            //new wave
+            ChickenWave++;
+            if (ChickenWave % 3 == 0)
+            {
                 ChickenCount++;
+                leftHunter.GetComponent<HuntersMovement>().HunterSpeed -= 5f;
+                rightHunter.GetComponent<HuntersMovement>().HunterSpeed += 5f;
+            }
 
             for (int i = 0; i < ChickenCount; i++)
             {

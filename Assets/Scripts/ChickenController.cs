@@ -19,8 +19,6 @@ public class ChickenController : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-
-
         x = Random.Range(-ChickenSpeed, ChickenSpeed);
         z = Random.Range(-ChickenSpeed, ChickenSpeed);
         angulo = Mathf.Atan2(x, z) * (180 / 3.141592f) + 90;
