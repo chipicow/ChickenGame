@@ -8,7 +8,6 @@ public class BulletIgnoreCollision : MonoBehaviour
     {
         if (col.gameObject.name == "Chicken" || col.gameObject.name == "Bullet")
         {
-            Debug.Log("Collision");
             Physics.IgnoreCollision(col.collider, gameObject.GetComponent<CapsuleCollider>());
         }
     }

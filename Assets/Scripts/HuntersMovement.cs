@@ -19,7 +19,7 @@ public class HuntersMovement : MonoBehaviour
     void Update()
     {
         timer += Time.deltaTime;
-        if (timer > HunterSpeed*2)
+        if (timer >= HunterSpeed*2)
         {
             StartCoroutine(MoveObject(transform, pointA, pointB, HunterSpeed));
             timer = 0;
@@ -29,18 +29,16 @@ public class HuntersMovement : MonoBehaviour
 
     IEnumerator MoveObject(Transform thisTransform, Vector3 startPos, Vector3 endPos, float time)
     {
-        Debug.Log("moving to point B");
         var i = 0.0f;
         var rate = 1.0f / time;
-        while (i < 1.0f)
+        while (i <= 1.0f)
         {
             i += Time.deltaTime * rate;
             thisTransform.position = Vector3.Lerp(startPos, endPos, i);
             yield return null;
         }
         i = 0;
-        Debug.Log("moving to point a");
-        while (i < 1.0f)
+        while (i <= 1.0f)
         {
             i += Time.deltaTime * rate;
             thisTransform.position = Vector3.Lerp(endPos, startPos, i);

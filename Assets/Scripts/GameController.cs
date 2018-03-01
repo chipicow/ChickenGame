@@ -23,6 +23,9 @@ public class GameController : MonoBehaviour
     private List<GameObject> ChickenList = new List<GameObject>();
     private ShootingManager rigthHunterShooting;
     private ShootingManager leftHunterShooting;
+    private HuntersMovement rigthHunterMovement;
+    private HuntersMovement leftHunterMovement;
+
     public int ChickenWave { get; private set; }
     private float Radius;
     private Vector3 center;
@@ -35,6 +38,8 @@ public class GameController : MonoBehaviour
         ChickenCount = 3;
         rigthHunterShooting = rightHunter.GetComponent<ShootingManager>();
         leftHunterShooting = leftHunter.GetComponent<ShootingManager>();
+        rigthHunterMovement = rightHunter.GetComponent<HuntersMovement>();
+        leftHunterMovement = leftHunter.GetComponent<HuntersMovement>();
     }
 
     void Update()
@@ -51,6 +56,11 @@ public class GameController : MonoBehaviour
                     rigthHunterShooting.HunterFireCooldown -= 0.1f;
                     leftHunterShooting.HunterFireCooldown -= 0.1f;
                 }
+                if (rigthHunterMovement.HunterSpeed >= 1.1f)
+                {
+                    rigthHunterMovement.HunterSpeed -= 0.1f;
+                    leftHunterMovement.HunterSpeed -= 0.1f;
+                }
             }
             for (int i = 0; i < ChickenCount; i++)
             {
@@ -66,12 +76,7 @@ public class GameController : MonoBehaviour
     }
     void CreateChicken(GameObject chicken)
     {
-        Vector3 pos;
-        do
-        {
-            pos = RandomCircle(center, Radius);
-        } while (Vector3.Distance(playerObject.transform.position, transform.position) < 1f);
-
+        Vector3 pos = RandomCircle(center, Radius);
         Quaternion rot = Quaternion.FromToRotation(Vector3.forward, center - pos);
         var clone = (GameObject)Instantiate(Resources.Load(chicken.gameObject.name), pos, rot);
         clone.name = clone.name.Substring(0, clone.name.Length - 7);
