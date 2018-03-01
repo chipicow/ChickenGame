@@ -1,11 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-public class ChickensList : MonoBehaviour
+
+public class GameController : MonoBehaviour
 {
     #region Singleton
-    public static ChickensList instance;
+    public static GameController instance;
 
     void Awake()
     {
@@ -19,8 +21,8 @@ public class ChickensList : MonoBehaviour
     public GameObject leftHunter;
     public GameObject rightHunter;
     private List<GameObject> ChickenList = new List<GameObject>();
-    private Component rigthHunterMovementComponent;
-    private Component leftHunterMovementComponent;
+    private ShootingManager rigthHunterShooting;
+    private ShootingManager leftHunterShooting;
     private int ChickenWave;
     private float Radius;
     private Vector3 center;
@@ -31,21 +33,35 @@ public class ChickensList : MonoBehaviour
         Radius = 5f;
         ChickenWave = 0;
         ChickenCount = 3;
+        rigthHunterShooting = rightHunter.GetComponent<ShootingManager>();
+        leftHunterShooting = leftHunter.GetComponent<ShootingManager>();
     }
 
     void Update()
     {
+
+        Debug.Log("GameController check count");
         if (ChickenList.Count == 0)
         {
             //new wave
+
+            Debug.Log("GameController add wave");
             ChickenWave++;
             if (ChickenWave % 3 == 0)
             {
+
+                Debug.Log("GameController add count");
                 ChickenCount++;
-                leftHunter.GetComponent<HuntersMovement>().HunterSpeed -= 5f;
-                rightHunter.GetComponent<HuntersMovement>().HunterSpeed += 5f;
+
+                Debug.Log("GameController check hunterfirerate");
+                if (rigthHunterShooting.HunterFireCooldown > 1f)
+                {
+                    rigthHunterShooting.HunterFireCooldown -= 0.2f;
+                    leftHunterShooting.HunterFireCooldown -= 0.2f;
+                }
             }
 
+            Debug.Log("creating chickens");
             for (int i = 0; i < ChickenCount; i++)
             {
                 CreateAChicken();
@@ -88,6 +104,8 @@ public class ChickensList : MonoBehaviour
         pos.z = center.z + radius * Mathf.Cos(ang * Mathf.Deg2Rad);
         return pos;
     }
-
-
+    public void PlayerDied()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
 }

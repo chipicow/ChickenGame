@@ -15,7 +15,9 @@ public class HuntersMovement : MonoBehaviour
         var pointA = transform.position;
         while (true)
         {
+            Debug.Log("Moving hunter");
             yield return StartCoroutine(MoveObject(transform, pointA, pointB, HunterSpeed));
+            Debug.Log("Moving hunter");
             yield return StartCoroutine(MoveObject(transform, pointB, pointA, HunterSpeed));
         }
     }

@@ -68,10 +68,5 @@ public class ChickenController : MonoBehaviour
         }
 
         transform.localPosition = new Vector3(transform.localPosition.x + x, transform.localPosition.y, transform.localPosition.z + z);
-        // solve the problem chickens leave the map
-        if (transform.position.x > 7 | transform.position.x < -7 | transform.position.z > 7 | transform.position.z < -7)
-        {
-
-        }
     }
 }

@@ -4,46 +4,47 @@ using UnityEngine;
 
 public class ShootingManager : MonoBehaviour
 {
-
-    // Use this for initialization
-
     public GameObject bulletPrefab;
-    public Transform ShootingZone;
     public float HunterFireCooldown;
+    public GameObject Bullet_Emitter;
     private float bulletWay = 1f;
-    private float bulletSpeed = 6f;
-
-    IEnumerator Start()
+    private float bulletSpeed = 1000f;
+    private float timer;
+    void Start()
     {
         if (gameObject.name == "RigthHunter")
             bulletWay = -1f;
-        while (true)
+        //InvokeRepeating("Shoot", 3f, HunterFireCooldown);
+    }
+
+    void Update()
+    {
+        timer += Time.deltaTime;
+        if (timer >= HunterFireCooldown - 0.5f)
         {
-            yield return StartCoroutine(Shoot());
+            //turn the player red , animation or rotation
+        }
+        if (timer > HunterFireCooldown)
+        {
+            Shoot();
+            timer = 0;
         }
     }
-    IEnumerator Shoot()
+    void Shoot()
     {
-        Rotate();
-        // Create the Bullet from the Bullet Prefab
-        var bullet = (GameObject)Instantiate(
-            bulletPrefab,
-            transform.position + transform.right * bulletWay,
-            transform.rotation);
-        // Add velocity to the bullettransform.forward
-        bullet.GetComponent<Rigidbody>().AddForce(transform.right * 10 * bulletWay, ForceMode.Impulse);
+        //The Bullet instantiation happens here.
+        GameObject Temporary_Bullet_Handler;
+        Temporary_Bullet_Handler = Instantiate(bulletPrefab, Bullet_Emitter.transform.position, Bullet_Emitter.transform.rotation) as GameObject;
+        //removing (clone) in bullet object
+        Temporary_Bullet_Handler.name = Temporary_Bullet_Handler.name.Substring(0, Temporary_Bullet_Handler.name.Length - 7);
 
-        // Destroy the bullet after 2 seconds
-        Destroy(bullet, 2.0f);
-        yield return new WaitForSeconds(HunterFireCooldown);
-    }
-    void Rotate()
-    {
-        float moveVertical = Input.GetAxisRaw("Vertical");
-        float moveHorizontal = Input.GetAxisRaw("Horizontal");
-        Vector3 movement = new Vector3(moveHorizontal, 0.0f, moveVertical);
-        transform.rotation = Quaternion.LookRotation(movement);
+        Temporary_Bullet_Handler.transform.Rotate(Vector3.forward * 90);
 
-        transform.Translate(movement * 20.0f * Time.deltaTime, Space.World);
+        Rigidbody Temporary_RigidBody;
+        Temporary_RigidBody = Temporary_Bullet_Handler.GetComponent<Rigidbody>();
+
+        Temporary_RigidBody.AddForce(transform.right * bulletSpeed * bulletWay);
+
+        Destroy(Temporary_Bullet_Handler, 0.8f);
     }
 }
