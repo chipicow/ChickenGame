@@ -80,8 +80,8 @@ public class GameController : MonoBehaviour
 
     public void KillChicken(GameObject chicken)
     {
-        ChickenList.Remove(chicken);
         Destroy(chicken);
+        ChickenList.Remove(chicken);
     }
 
     //Creating Chicken inside map
