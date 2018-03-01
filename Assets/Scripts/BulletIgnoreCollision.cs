@@ -6,11 +6,11 @@ public class BulletIgnoreCollision : MonoBehaviour
 {
     void OnCollisionEnter(Collision col)
     {
-        if (col.gameObject.name == "Chicken")
+        if (col.gameObject.name == "Chicken" || col.gameObject.name == "Bullet")
         {
 
             Debug.Log("Collision");
-            Physics.IgnoreCollision(col.collider, gameObject.GetComponent<CapsuleCollider>() );
+            Physics.IgnoreCollision(col.collider, gameObject.GetComponent<CapsuleCollider>());
         }
     }
 }

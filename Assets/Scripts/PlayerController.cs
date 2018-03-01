@@ -47,11 +47,11 @@ public class PlayerController : MonoBehaviour
     {
         float moveHorizontal = Input.GetAxisRaw("Horizontal");
         float moveVertical = Input.GetAxisRaw("Vertical");
+        Vector3 moviment =  new Vector3(moveHorizontal, 0.0f, moveVertical);
+        Quaternion lookRotation = Quaternion.LookRotation(moviment);
+        transform.rotation = Quaternion.Slerp(gameObject.transform.rotation, lookRotation, Time.deltaTime* PlayerSpeed*2);
 
-        Vector3 movement = new Vector3(moveHorizontal, 0.0f, moveVertical);
-        transform.rotation = Quaternion.LookRotation(movement);
-
-        transform.Translate(movement * PlayerSpeed * Time.deltaTime, Space.World);
+        transform.Translate(moviment * PlayerSpeed * Time.deltaTime, Space.World);
     }
 
     bool CheckIfDiagonal()

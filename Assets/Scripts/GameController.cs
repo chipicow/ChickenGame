@@ -23,7 +23,7 @@ public class GameController : MonoBehaviour
     private List<GameObject> ChickenList = new List<GameObject>();
     private ShootingManager rigthHunterShooting;
     private ShootingManager leftHunterShooting;
-    private int ChickenWave;
+    public int ChickenWave { get; private set; }
     private float Radius;
     private Vector3 center;
     private int ChickenCount;
@@ -39,29 +39,19 @@ public class GameController : MonoBehaviour
 
     void Update()
     {
-
-        Debug.Log("GameController check count");
         if (ChickenList.Count == 0)
         {
-            //new wave
-
-            Debug.Log("GameController add wave");
+            //New Wave
             ChickenWave++;
             if (ChickenWave % 3 == 0)
             {
-
-                Debug.Log("GameController add count");
                 ChickenCount++;
-
-                Debug.Log("GameController check hunterfirerate");
-                if (rigthHunterShooting.HunterFireCooldown > 1f)
+                if (rigthHunterShooting.HunterFireCooldown >= 1.1f)
                 {
-                    rigthHunterShooting.HunterFireCooldown -= 0.2f;
-                    leftHunterShooting.HunterFireCooldown -= 0.2f;
+                    rigthHunterShooting.HunterFireCooldown -= 0.1f;
+                    leftHunterShooting.HunterFireCooldown -= 0.1f;
                 }
             }
-
-            Debug.Log("creating chickens");
             for (int i = 0; i < ChickenCount; i++)
             {
                 CreateAChicken();

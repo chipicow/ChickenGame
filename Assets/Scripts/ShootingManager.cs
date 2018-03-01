@@ -16,17 +16,30 @@ public class ShootingManager : MonoBehaviour
             bulletWay = -1f;
         //InvokeRepeating("Shoot", 3f, HunterFireCooldown);
     }
-
+    IEnumerator RotateMe(Vector3 byAngles, float inTime)
+    {
+        Quaternion fromAngle = transform.rotation;
+        Quaternion toAngle = Quaternion.Euler(transform.eulerAngles + byAngles);
+        for (float t = 0f; t < 1f; t += Time.deltaTime / inTime)
+        {
+            transform.rotation = Quaternion.Lerp(fromAngle, toAngle, t);
+            yield return null;
+        }
+        Shoot();
+        Quaternion fromAngle2 = transform.rotation;
+        Quaternion toAngle2 = Quaternion.Euler(transform.eulerAngles - byAngles);
+        for (float t = 0f; t < 1f; t += Time.deltaTime / inTime)
+        {
+            transform.rotation = Quaternion.Lerp(fromAngle2, toAngle2, t);
+            yield return null;
+        }
+    }
     void Update()
     {
         timer += Time.deltaTime;
-        if (timer >= HunterFireCooldown - 0.5f)
-        {
-            //turn the player red , animation or rotation
-        }
         if (timer > HunterFireCooldown)
         {
-            Shoot();
+            StartCoroutine(RotateMe(Vector3.up * 90f * bulletWay, 0.5f));
             timer = 0;
         }
     }
@@ -38,12 +51,12 @@ public class ShootingManager : MonoBehaviour
         //removing (clone) in bullet object
         Temporary_Bullet_Handler.name = Temporary_Bullet_Handler.name.Substring(0, Temporary_Bullet_Handler.name.Length - 7);
 
-        Temporary_Bullet_Handler.transform.Rotate(Vector3.forward * 90);
+        Temporary_Bullet_Handler.transform.Rotate(Vector3.right * 90);
 
         Rigidbody Temporary_RigidBody;
         Temporary_RigidBody = Temporary_Bullet_Handler.GetComponent<Rigidbody>();
 
-        Temporary_RigidBody.AddForce(transform.right * bulletSpeed * bulletWay);
+        Temporary_RigidBody.AddForce(transform.forward * bulletSpeed );
 
         Destroy(Temporary_Bullet_Handler, 0.8f);
     }
