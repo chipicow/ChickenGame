@@ -114,7 +114,7 @@ public class GameController : MonoBehaviour
     void CreateDogs(int i)
     {
         List<string> positions = new List<string>() { "top", "bottom", "left", "right" };
-        for(int j = 0; j<i; j++)
+        for (int j = 0; j < i; j++)
         {
             int dogPosition = Random.Range(1, positions.Count);
             GameObject clone = null;
@@ -122,24 +122,28 @@ public class GameController : MonoBehaviour
             {
                 case "top":
                     dogPrefab.transform.position = new Vector3(0, dogPrefab.transform.position.y, 5.5f);
+                    dogPrefab.transform.rotation = new Quaternion(0, 0, 0, 0);
                     clone = (GameObject)Instantiate(Resources.Load(dogPrefab.name));
                     clone.name = clone.name.Substring(0, clone.name.Length - 7);
                     positions.RemoveAt(dogPosition);
                     break;
                 case "bottom":
                     dogPrefab.transform.position = new Vector3(0, dogPrefab.transform.position.y, -5.5f);
+                    dogPrefab.transform.rotation = new Quaternion(0, 0, 0, 0);
                     clone = (GameObject)Instantiate(Resources.Load(dogPrefab.name));
                     clone.name = clone.name.Substring(0, clone.name.Length - 7);
                     positions.RemoveAt(dogPosition);
                     break;
                 case "left":
                     dogPrefab.transform.position = new Vector3(-5.5f, dogPrefab.transform.position.y, 0);
+                    dogPrefab.transform.rotation = new Quaternion(0, 0, 0, 0);
                     clone = (GameObject)Instantiate(Resources.Load(dogPrefab.name));
                     clone.name = clone.name.Substring(0, clone.name.Length - 7);
                     positions.RemoveAt(dogPosition);
                     break;
                 case "right":
                     dogPrefab.transform.position = new Vector3(5.5f, dogPrefab.transform.position.y, 0);
+                    dogPrefab.transform.rotation = new Quaternion(0, 0, 0, 0);
                     clone = (GameObject)Instantiate(Resources.Load(dogPrefab.name));
                     clone.name = clone.name.Substring(0, clone.name.Length - 7);
                     positions.RemoveAt(dogPosition);
