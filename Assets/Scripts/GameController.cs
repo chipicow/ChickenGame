@@ -101,6 +101,11 @@ public class GameController : MonoBehaviour
     }
     public void PlayerDied()
     {
+        if (ChickenWave > PlayerPrefs.GetInt("HighScore", 0))
+        {
+            PlayerPrefs.SetInt("HighScore", ChickenWave);
+            
+        }
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }
