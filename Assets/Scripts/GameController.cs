@@ -30,6 +30,7 @@ public class GameController : MonoBehaviour
     private float Radius;
     private Vector3 center;
     private int ChickenCount;
+    private int numberOfDogs;
     void Start()
     {
         center = transform.position;
@@ -62,6 +63,12 @@ public class GameController : MonoBehaviour
                     leftHunterMovement.HunterSpeed -= 0.1f;
                 }
             }
+
+            if (ChickenWave % 10 == 0)
+            {
+                numberOfDogs++;
+            }
+
             for (int i = 0; i < ChickenCount; i++)
             {
                 CreateAChicken();
@@ -104,7 +111,7 @@ public class GameController : MonoBehaviour
         if (ChickenWave > PlayerPrefs.GetInt("HighScore", 0))
         {
             PlayerPrefs.SetInt("HighScore", ChickenWave);
-            
+
         }
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }

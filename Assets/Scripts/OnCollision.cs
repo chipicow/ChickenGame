@@ -11,7 +11,7 @@ public class OnCollision : MonoBehaviour
             GameController.instance.KillChicken(col.gameObject);
         }
 
-        if (col.gameObject.name == "Bullet")
+        if (col.gameObject.name == "Bullet" || col.gameObject.name == "Dog")
         {
             GameController.instance.PlayerDied();
         }
