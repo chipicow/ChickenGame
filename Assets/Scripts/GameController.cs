@@ -21,11 +21,15 @@ public class GameController : MonoBehaviour
     public GameObject leftHunter;
     public GameObject rightHunter;
     public GameObject dogPrefab;
+    public DeathMenu deathMenu;
+
     private List<GameObject> ChickenList = new List<GameObject>();
     private ShootingManager rigthHunterShooting;
     private ShootingManager leftHunterShooting;
     private HuntersMovement rigthHunterMovement;
     private HuntersMovement leftHunterMovement;
+
+
 
     public int ChickenWave { get; private set; }
     private float Radius;
@@ -116,41 +120,41 @@ public class GameController : MonoBehaviour
         List<string> positions = new List<string>() { "top", "bottom", "left", "right" };
         for (int j = 0; j < i; j++)
         {
+            if (positions.Count == 0)
+                return;
             int dogPosition = Random.Range(1, positions.Count);
-            GameObject clone = null;
             switch (positions[dogPosition])
             {
                 case "top":
                     dogPrefab.transform.position = new Vector3(0, dogPrefab.transform.position.y, 5.5f);
-                    dogPrefab.transform.rotation = new Quaternion(0, 0, 0, 0);
-                    clone = (GameObject)Instantiate(Resources.Load(dogPrefab.name));
-                    clone.name = clone.name.Substring(0, clone.name.Length - 7);
-                    positions.RemoveAt(dogPosition);
+                    StartCoroutine(SpawnDog(positions,dogPosition));
                     break;
                 case "bottom":
                     dogPrefab.transform.position = new Vector3(0, dogPrefab.transform.position.y, -5.5f);
-                    dogPrefab.transform.rotation = new Quaternion(0, 0, 0, 0);
-                    clone = (GameObject)Instantiate(Resources.Load(dogPrefab.name));
-                    clone.name = clone.name.Substring(0, clone.name.Length - 7);
-                    positions.RemoveAt(dogPosition);
+                    StartCoroutine(SpawnDog(positions, dogPosition));
                     break;
                 case "left":
                     dogPrefab.transform.position = new Vector3(-5.5f, dogPrefab.transform.position.y, 0);
-                    dogPrefab.transform.rotation = new Quaternion(0, 0, 0, 0);
-                    clone = (GameObject)Instantiate(Resources.Load(dogPrefab.name));
-                    clone.name = clone.name.Substring(0, clone.name.Length - 7);
-                    positions.RemoveAt(dogPosition);
+                    StartCoroutine(SpawnDog(positions, dogPosition));
                     break;
                 case "right":
                     dogPrefab.transform.position = new Vector3(5.5f, dogPrefab.transform.position.y, 0);
-                    dogPrefab.transform.rotation = new Quaternion(0, 0, 0, 0);
-                    clone = (GameObject)Instantiate(Resources.Load(dogPrefab.name));
-                    clone.name = clone.name.Substring(0, clone.name.Length - 7);
-                    positions.RemoveAt(dogPosition);
+                    StartCoroutine(SpawnDog(positions, dogPosition));
                     break;
             }
         }
 
+    }
+
+
+
+
+    IEnumerator SpawnDog(List<string> positions, int dogPosition)
+    {
+        yield return new WaitForSeconds(0.5f);
+        var clone = (GameObject)Instantiate(Resources.Load(dogPrefab.name));
+        clone.name = clone.name.Substring(0, clone.name.Length - 7);
+        positions.RemoveAt(dogPosition);
     }
 
     public void PlayerDied()
@@ -158,8 +162,9 @@ public class GameController : MonoBehaviour
         if (ChickenWave > PlayerPrefs.GetInt("HighScore", 0))
         {
             PlayerPrefs.SetInt("HighScore", ChickenWave);
-
         }
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        Destroy(playerObject);
+        deathMenu.OnDeathMenu();
+
     }
 }

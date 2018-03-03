@@ -20,19 +20,19 @@ public class PlayerController : MonoBehaviour
         if (xplusz)
             speedToUse = DividedByHipotnouse(speedToUse);
 
-        if (Input.GetKey("w") && pos.z < 6.5f)
+        if ((Input.GetKey("w")|| Input.GetKey("up")) && pos.z < 6.5f)
         {
             pos.z += speedToUse * Time.deltaTime;
         }
-        if (Input.GetKey("s") && pos.z > -6.5f)
+        if ((Input.GetKey("s")|| Input.GetKey("down")) && pos.z > -6.5f)
         {
             pos.z -= speedToUse * Time.deltaTime;
         }
-        if (Input.GetKey("d") && pos.x < 6.5f)
+        if ((Input.GetKey("d")|| Input.GetKey("right")) && pos.x < 6.5f)
         {
             pos.x += speedToUse * Time.deltaTime;
         }
-        if (Input.GetKey("a") && pos.x > -6.5f)
+        if ((Input.GetKey("a")|| Input.GetKey("left")) && pos.x > -6.5f)
         {
             pos.x -= speedToUse * Time.deltaTime;
         }
@@ -56,7 +56,8 @@ public class PlayerController : MonoBehaviour
 
     bool CheckIfDiagonal()
     {
-        if (Input.GetKey("w") && Input.GetKey("d") || Input.GetKey("w") && Input.GetKey("a") || Input.GetKey("s") && Input.GetKey("d") || Input.GetKey("s") && Input.GetKey("a"))
+        if (Input.GetKey("w") && Input.GetKey("d") || Input.GetKey("w") && Input.GetKey("a") || Input.GetKey("s") && Input.GetKey("d") || Input.GetKey("s") && Input.GetKey("a")||
+            Input.GetKey("up") && Input.GetKey("right") || Input.GetKey("up") && Input.GetKey("left") || Input.GetKey("down") && Input.GetKey("right") || Input.GetKey("down") && Input.GetKey("left"))
             return true;
         return false;
     }

@@ -58,6 +58,11 @@ public class ChickenController : MonoBehaviour
             Time = 0.0f;
         }
 
+        if (transform.localPosition.y < 0)
+        {
+            GameController.instance.KillChicken(gameObject);
+        }
+
         if (Time > 1.0f)
         {
             x = Random.Range(-ChickenSpeed, ChickenSpeed);
