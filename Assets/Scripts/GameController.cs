@@ -21,6 +21,7 @@ public class GameController : MonoBehaviour
     public GameObject leftHunter;
     public GameObject rightHunter;
     public GameObject dogPrefab;
+    public GameObject spawnerPrefab;
     public DeathMenu deathMenu;
 
     private List<GameObject> ChickenList = new List<GameObject>();
@@ -127,18 +128,22 @@ public class GameController : MonoBehaviour
             {
                 case "top":
                     dogPrefab.transform.position = new Vector3(0, dogPrefab.transform.position.y, 5.5f);
-                    StartCoroutine(SpawnDog(positions,dogPosition));
+                    spawnerPrefab.transform.position = new Vector3(0, spawnerPrefab.transform.position.y, 5.5f);
+                    StartCoroutine(SpawnDog(positions, dogPosition));
                     break;
                 case "bottom":
                     dogPrefab.transform.position = new Vector3(0, dogPrefab.transform.position.y, -5.5f);
+                    spawnerPrefab.transform.position = new Vector3(0, spawnerPrefab.transform.position.y, -5.5f);
                     StartCoroutine(SpawnDog(positions, dogPosition));
                     break;
                 case "left":
                     dogPrefab.transform.position = new Vector3(-5.5f, dogPrefab.transform.position.y, 0);
+                    spawnerPrefab.transform.position = new Vector3(-5.5f, dogPrefab.transform.position.y, 0);
                     StartCoroutine(SpawnDog(positions, dogPosition));
                     break;
                 case "right":
                     dogPrefab.transform.position = new Vector3(5.5f, dogPrefab.transform.position.y, 0);
+                    spawnerPrefab.transform.position = new Vector3(5.5f, dogPrefab.transform.position.y, 0);
                     StartCoroutine(SpawnDog(positions, dogPosition));
                     break;
             }
@@ -151,7 +156,9 @@ public class GameController : MonoBehaviour
 
     IEnumerator SpawnDog(List<string> positions, int dogPosition)
     {
+        var dogWarning = (GameObject)Instantiate(Resources.Load(spawnerPrefab.name));
         yield return new WaitForSeconds(0.5f);
+        Destroy(dogWarning);
         var clone = (GameObject)Instantiate(Resources.Load(dogPrefab.name));
         clone.name = clone.name.Substring(0, clone.name.Length - 7);
         positions.RemoveAt(dogPosition);

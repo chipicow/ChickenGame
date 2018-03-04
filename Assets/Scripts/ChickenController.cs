@@ -10,7 +10,7 @@ public class ChickenController : MonoBehaviour
     public float zMax = 6;
     public float xMin = -6;
     public float zMin = -6;
-
+    public float jumpHeight = 1f;
     private float x;
     private float z;
     private float Time;
@@ -69,6 +69,7 @@ public class ChickenController : MonoBehaviour
             z = Random.Range(-ChickenSpeed, ChickenSpeed);
             angulo = Mathf.Atan2(x, z) * (180 / 3.141592f) + 90;
             transform.localRotation = Quaternion.Euler(0, angulo, 0);
+            //gameObject.GetComponent<Rigidbody>().AddForce(Vector3.up * jumpHeight*10);
             Time = 0.0f;
         }
 
