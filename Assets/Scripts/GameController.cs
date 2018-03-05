@@ -43,6 +43,7 @@ public class GameController : MonoBehaviour
         Radius = 5f;
         ChickenWave = 0;
         ChickenCount = 3;
+        numberOfDogs = 0;
         rigthHunterShooting = rightHunter.GetComponent<ShootingManager>();
         leftHunterShooting = leftHunter.GetComponent<ShootingManager>();
         rigthHunterMovement = rightHunter.GetComponent<HuntersMovement>();
@@ -70,11 +71,11 @@ public class GameController : MonoBehaviour
                 }
             }
 
-            if (ChickenWave % 1 == 0)
+            if (ChickenWave % 10 == 0)
             {
-                numberOfDogs++;
+                if (numberOfDogs < 4)
+                    numberOfDogs++;
             }
-
 
             for (int i = 0; i < ChickenCount; i++)
             {
@@ -124,50 +125,43 @@ public class GameController : MonoBehaviour
             if (positions.Count == 0)
                 return;
             int dogPosition = Random.Range(0, positions.Count);
-            StartCoroutine(SpawnDog(positions, dogPosition));
+            string position = positions[dogPosition];
+            positions.RemoveAt(dogPosition);
+            StartCoroutine(SpawnDog(positions, position));
         }
 
     }
 
-    IEnumerator SpawnDog(List<string> positions, int dogPosition)
+    IEnumerator SpawnDog(List<string> positions, string dogPosition)
     {
-        switch (positions[dogPosition])
+        var dogWarning = "DogSpawner";
+        var dog = "Dog";
+        string DogPrefbName = "";
+        string DogSpawnerPrefabName = "";
+        switch (dogPosition)
         {
             case "top":
-                spawnerPrefab.transform.position = new Vector3(0, spawnerPrefab.transform.position.y, 5.5f);
+                DogSpawnerPrefabName = "top" + dogWarning;
+                DogPrefbName = "top" + dog;
                 break;
             case "bottom":
-                spawnerPrefab.transform.position = new Vector3(0, spawnerPrefab.transform.position.y, -5.5f);
+                DogSpawnerPrefabName = "bottom" + dogWarning;
+                DogPrefbName = "bottom" + dog;
                 break;
             case "left":
-                spawnerPrefab.transform.position = new Vector3(-5.5f, spawnerPrefab.transform.position.y, 0);
+                DogSpawnerPrefabName = "left" + dogWarning;
+                DogPrefbName = "left" + dog;
                 break;
             case "right":
-                spawnerPrefab.transform.position = new Vector3(5.5f, spawnerPrefab.transform.position.y, 0);
+                DogSpawnerPrefabName = "right" + dogWarning;
+                DogPrefbName = "right" + dog;
                 break;
         }
-        var dogWarning =  Instantiate(spawnerPrefab);
+        var dogSpawner = Instantiate(Resources.Load(DogSpawnerPrefabName));
         yield return new WaitForSeconds(0.5f);
-        Destroy(dogWarning);
-        switch (positions[dogPosition])
-        {
-            case "top":
-                dogPrefab.transform.position = new Vector3(0, dogPrefab.transform.position.y, 5.5f);
-                break;
-            case "bottom":
-                dogPrefab.transform.position = new Vector3(0, dogPrefab.transform.position.y, -5.5f);
-                break;
-            case "left":
-                dogPrefab.transform.position = new Vector3(-5.5f, dogPrefab.transform.position.y, 0);
-                break;
-            case "right":
-                dogPrefab.transform.position = new Vector3(5.5f, dogPrefab.transform.position.y, 0);
-                break;   
-        }
-        var clone = Instantiate(dogPrefab);
+        Destroy(dogSpawner);
+        var clone = Instantiate(Resources.Load(DogPrefbName));
         clone.name = clone.name.Substring(0, clone.name.Length - 7);
-        positions.RemoveAt(dogPosition);
-        yield return new WaitForSeconds(0.1f);
     }
 
     public void PlayerDied()

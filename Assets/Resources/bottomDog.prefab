@@ -25,7 +25,7 @@ GameObject:
   - component: {fileID: 114497601045260036}
   - component: {fileID: 195532939597414758}
   m_Layer: 10
-  m_Name: Dog
+  m_Name: bottomDog
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
