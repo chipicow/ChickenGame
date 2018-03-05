@@ -14,7 +14,6 @@ public class ShootingManager : MonoBehaviour
     {
         if (gameObject.name == "RigthHunter")
             bulletWay = -1f;
-        //InvokeRepeating("Shoot", 3f, HunterFireCooldown);
     }
     IEnumerator RotateMe(Vector3 byAngles, float inTime)
     {
@@ -45,19 +44,13 @@ public class ShootingManager : MonoBehaviour
     }
     void Shoot()
     {
-        //The Bullet instantiation happens here.
         GameObject Temporary_Bullet_Handler;
         Temporary_Bullet_Handler = Instantiate(bulletPrefab, Bullet_Emitter.transform.position, Bullet_Emitter.transform.rotation) as GameObject;
-        //removing (clone) in bullet object
         Temporary_Bullet_Handler.name = Temporary_Bullet_Handler.name.Substring(0, Temporary_Bullet_Handler.name.Length - 7);
-
         Temporary_Bullet_Handler.transform.Rotate(Vector3.right * 90);
-
         Rigidbody Temporary_RigidBody;
         Temporary_RigidBody = Temporary_Bullet_Handler.GetComponent<Rigidbody>();
-
         Temporary_RigidBody.AddForce(transform.forward * bulletSpeed );
-
         Destroy(Temporary_Bullet_Handler, 0.8f);
     }
 }

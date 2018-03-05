@@ -70,7 +70,7 @@ public class GameController : MonoBehaviour
                 }
             }
 
-            if (ChickenWave % 10 == 0)
+            if (ChickenWave % 1 == 0)
             {
                 numberOfDogs++;
             }
@@ -123,45 +123,51 @@ public class GameController : MonoBehaviour
         {
             if (positions.Count == 0)
                 return;
-            int dogPosition = Random.Range(1, positions.Count);
-            switch (positions[dogPosition])
-            {
-                case "top":
-                    dogPrefab.transform.position = new Vector3(0, dogPrefab.transform.position.y, 5.5f);
-                    spawnerPrefab.transform.position = new Vector3(0, spawnerPrefab.transform.position.y, 5.5f);
-                    StartCoroutine(SpawnDog(positions, dogPosition));
-                    break;
-                case "bottom":
-                    dogPrefab.transform.position = new Vector3(0, dogPrefab.transform.position.y, -5.5f);
-                    spawnerPrefab.transform.position = new Vector3(0, spawnerPrefab.transform.position.y, -5.5f);
-                    StartCoroutine(SpawnDog(positions, dogPosition));
-                    break;
-                case "left":
-                    dogPrefab.transform.position = new Vector3(-5.5f, dogPrefab.transform.position.y, 0);
-                    spawnerPrefab.transform.position = new Vector3(-5.5f, dogPrefab.transform.position.y, 0);
-                    StartCoroutine(SpawnDog(positions, dogPosition));
-                    break;
-                case "right":
-                    dogPrefab.transform.position = new Vector3(5.5f, dogPrefab.transform.position.y, 0);
-                    spawnerPrefab.transform.position = new Vector3(5.5f, dogPrefab.transform.position.y, 0);
-                    StartCoroutine(SpawnDog(positions, dogPosition));
-                    break;
-            }
+            int dogPosition = Random.Range(0, positions.Count);
+            StartCoroutine(SpawnDog(positions, dogPosition));
         }
 
     }
 
-
-
-
     IEnumerator SpawnDog(List<string> positions, int dogPosition)
     {
-        var dogWarning = (GameObject)Instantiate(Resources.Load(spawnerPrefab.name));
+        switch (positions[dogPosition])
+        {
+            case "top":
+                spawnerPrefab.transform.position = new Vector3(0, spawnerPrefab.transform.position.y, 5.5f);
+                break;
+            case "bottom":
+                spawnerPrefab.transform.position = new Vector3(0, spawnerPrefab.transform.position.y, -5.5f);
+                break;
+            case "left":
+                spawnerPrefab.transform.position = new Vector3(-5.5f, spawnerPrefab.transform.position.y, 0);
+                break;
+            case "right":
+                spawnerPrefab.transform.position = new Vector3(5.5f, spawnerPrefab.transform.position.y, 0);
+                break;
+        }
+        var dogWarning =  Instantiate(spawnerPrefab);
         yield return new WaitForSeconds(0.5f);
         Destroy(dogWarning);
-        var clone = (GameObject)Instantiate(Resources.Load(dogPrefab.name));
+        switch (positions[dogPosition])
+        {
+            case "top":
+                dogPrefab.transform.position = new Vector3(0, dogPrefab.transform.position.y, 5.5f);
+                break;
+            case "bottom":
+                dogPrefab.transform.position = new Vector3(0, dogPrefab.transform.position.y, -5.5f);
+                break;
+            case "left":
+                dogPrefab.transform.position = new Vector3(-5.5f, dogPrefab.transform.position.y, 0);
+                break;
+            case "right":
+                dogPrefab.transform.position = new Vector3(5.5f, dogPrefab.transform.position.y, 0);
+                break;   
+        }
+        var clone = Instantiate(dogPrefab);
         clone.name = clone.name.Substring(0, clone.name.Length - 7);
         positions.RemoveAt(dogPosition);
+        yield return new WaitForSeconds(0.1f);
     }
 
     public void PlayerDied()
