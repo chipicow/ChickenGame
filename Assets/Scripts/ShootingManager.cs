@@ -38,7 +38,7 @@ public class ShootingManager : MonoBehaviour
         timer += Time.deltaTime;
         if (timer > HunterFireCooldown)
         {
-            StartCoroutine(RotateMe(Vector3.up * 90f * bulletWay, 0.5f));
+            StartCoroutine(RotateMe(Vector3.up * 90f , 0.5f));
             timer = 0;
         }
     }
@@ -50,7 +50,7 @@ public class ShootingManager : MonoBehaviour
         Temporary_Bullet_Handler.transform.Rotate(Vector3.right * 90);
         Rigidbody Temporary_RigidBody;
         Temporary_RigidBody = Temporary_Bullet_Handler.GetComponent<Rigidbody>();
-        Temporary_RigidBody.AddForce(transform.forward * bulletSpeed );
+        Temporary_RigidBody.AddForce(transform.forward * bulletSpeed * bulletWay);
         Destroy(Temporary_Bullet_Handler, 0.8f);
     }
 }
