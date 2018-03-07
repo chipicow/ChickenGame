@@ -47,6 +47,8 @@ public class PlayerController : MonoBehaviour
     {
         float moveHorizontal = Input.GetAxisRaw("Horizontal");
         float moveVertical = Input.GetAxisRaw("Vertical");
+        if (moveVertical == 0f && moveHorizontal == 0f)
+            return;
         Vector3 moviment =  new Vector3(moveHorizontal, 0.0f, moveVertical);
         Quaternion lookRotation = Quaternion.LookRotation(moviment);
         transform.rotation = Quaternion.Slerp(gameObject.transform.rotation, lookRotation, Time.deltaTime* PlayerSpeed*2);
